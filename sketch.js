@@ -18,12 +18,13 @@ function setup() {
     carte = new Carte(carteData, imgTileset); // Passer l'image des tuiles à la carte
     inventaire = new Inventaire();
 
-    // Générer plusieurs animaux aléatoirement sur la carte
+    // Générer plusieurs animaux aléatoirement sur la carte avec des niveaux aléatoires
     for (let i = 0; i < 5; i++) {
         let x = random(width);
         let y = random(height);
-        animaux.push(new Animal(x, y, 30));
-        console.log(`Animal créé à la position (${x}, ${y})`);
+        let niveau = Math.floor(random(1, 5)); // Niveau aléatoire entre 1 et 5
+        animaux.push(new Animal(x, y, 30, niveau));
+        console.log(`Animal créé à la position (${x}, ${y}) avec niveau ${niveau}`);
     }
 
     // Masquer la présentation et démarrer le jeu après 5 secondes
@@ -39,6 +40,8 @@ function setup() {
 function draw() {
     if (afficherPresentation) {
         afficherPageDePresentation();
+    } else if (showMenu) {
+        afficherMenu();
     } else {
         carte.dessiner();
         if (joueur && carte.arbres) {
@@ -110,6 +113,7 @@ function draw() {
                 console.log("Affichage de l'image de défaite");
                 image(imgPerdu, 0, 0, width, height); // Affiche l'image de défaite sur tout le canevas
                 gameLost = true;
+                showMenu = true; // Afficher le menu après la défaite
                 noLoop(); // Arrêter la boucle de draw
             }
         }
@@ -153,38 +157,16 @@ function keyPressed() {
 }
 
 function mousePressed() {
-    animaux.forEach(animal => {
-        let resultatAttaque = joueur.attaquer(animal);
-        if (resultatAttaque === 'tué') {
-            animal.sante = 0; // Marquer l'animal comme tué
-            animalTue = animal; // Marquer l'animal comme tué
-            joueur.gagnerXp(10); // Gagner de l'XP pour avoir tué un animal
-        }
-    });
-}
-
-// Classe Projectile pour gérer les attaques à distance
-class Projectile {
-    constructor(x, y, angle, taille, vitesse) {
-        this.x = x;
-        this.y = y;
-        this.angle = angle;
-        this.taille = taille;
-        this.vitesse = vitesse;
-    }
-
-    deplacer() {
-        this.x += cos(this.angle) * this.vitesse;
-        this.y += sin(this.angle) * this.vitesse;
-    }
-
-    dessiner() {
-        fill(0, 255, 0);
-        ellipse(this.x, this.y, this.taille, this.taille);
-    }
-
-    toucher(animal) {
-        let distance = dist(this.x, this.y, animal.x, animal.y);
-        return distance < this.taille / 2 + animal.taille / 2;
+    if (showMenu) {
+        mousePressedMenu();
+    } else {
+        animaux.forEach(animal => {
+            let resultatAttaque = joueur.attaquer(animal);
+            if (resultatAttaque === 'tué') {
+                animal.sante = 0; // Marquer l'animal comme tué
+                animalTue = animal; // Marquer l'animal comme tué
+                joueur.gagnerXp(10); // Gagner de l'XP pour avoir tué un animal
+            }
+        });
     }
 }

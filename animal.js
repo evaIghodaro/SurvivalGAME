@@ -1,10 +1,12 @@
 class Animal {
-    constructor(x, y, taille) {
+    constructor(x, y, taille, niveau) {
         this.x = x;
         this.y = y;
         this.taille = taille;
-        this.sante = 100; // Santé initiale de l'animal
-        this.vitesse = 1; // Initial speed
+        this.niveau = niveau || 1; // Par défaut, le niveau est 1
+        this.sante = 100 + this.niveau * 20; // Santé augmentée en fonction du niveau
+        this.vitesse = 1 + this.niveau * 0.2; // Vitesse augmentée en fonction du niveau
+        this.force = 1 + this.niveau; // Force augmentée en fonction du niveau
         this.moveDelay = Math.floor(Math.random() * (120 - 30) + 30); // Random delay between moves
         this.lastMoveTime = 0; // Last move time
         this.mort = false; // Indiquer si l'animal est mort
@@ -18,13 +20,15 @@ class Animal {
             fill(255, 0, 0);
             rect(this.x - this.taille / 2, this.y - this.taille, this.taille, 5);
             fill(0, 255, 0);
-            let healthWidth = Math.max(0, this.taille * (this.sante / 100));
+            let healthWidth = Math.max(0, this.taille * (this.sante / (100 + this.niveau * 20)));
             rect(this.x - this.taille / 2, this.y - this.taille, healthWidth, 5);
 
             // Afficher la santé en texte à côté de la barre de vie
             fill(255);
             textSize(12);
-            text(`${Math.max(0, this.sante)}/100`, this.x + this.taille / 2 + 5, this.y - this.taille + 5);
+            text(`${Math.max(0, this.sante)}/${100 + this.niveau * 20}`, this.x + this.taille / 2 + 5, this.y - this.taille + 5);
+            // Afficher le niveau de l'animal
+            text(`Niveau: ${this.niveau}`, this.x + this.taille / 2 + 5, this.y - this.taille + 20);
         }
     }
 
@@ -43,7 +47,7 @@ class Animal {
         if (this.sante > 0 && !this.mort) { // Ne pas attaquer si l'animal est mort
             let distance = dist(this.x, this.y, joueur.x, joueur.y);
             if (distance < this.taille / 2 + joueur.taille / 2) {
-                joueur.sante -= 5;
+                joueur.sante -= this.force; // Utiliser la force ajustée par le niveau
             }
         }
     }
@@ -52,5 +56,3 @@ class Animal {
         this.mort = true;
     }
 }
-
-
