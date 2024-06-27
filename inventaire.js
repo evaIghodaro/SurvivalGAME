@@ -1,26 +1,27 @@
 class Inventaire {
     constructor() {
-        this.objets = [];
+        this.animauxCaptures = [];
     }
 
-    ajouter(animal) {
-        this.objets.push(animal);
+    ajouterAnimal(animal) {
+        this.animauxCaptures.push(animal);
     }
 
     dessiner() {
+        fill(0, 102, 204);
+        rect(10, 10, 200, 400, 5);
         fill(255);
-        rect(10, 10, 250, 200); // Adjusted size for more information
-        fill(0);
-        textSize(12);
-        text("Inventaire:", 20, 30);
+        textSize(20);
+        text("Inventaire", 60, 30);
 
-        for (let i = 0; i < this.objets.length; i++) {
-            let animal = this.objets[i];
-            text(`Animal ${i + 1} - Santé: ${animal.sante}`, 20, 50 + i * 40);
-            text(`Score Gagné: 50`, 20, 65 + i * 40);
-            text(`Force Gagnée: 5`, 20, 80 + i * 40);
-            text(`Vitesse Gagnée: 1`, 20, 95 + i * 40);
-        }
+        let y = 60;
+        this.animauxCaptures.forEach(animal => {
+            textSize(16);
+            text(`Animal Niveau ${animal.niveau}`, 20, y);
+            textSize(12);
+            text(`Santé: ${animal.sante}`, 20, y + 15);
+            text(`Force: ${animal.force}`, 20, y + 30);
+            y += 50;
+        });
     }
 }
-

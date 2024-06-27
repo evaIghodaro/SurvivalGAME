@@ -31,7 +31,7 @@ function setup() {
     setTimeout(() => {
         afficherPresentation = false;
         messageInventaireAffiche = false; // Masquer le message après la présentation
-        frameCounter = 1800; // Initialiser le compteur de trames pour 30 secondes (60 FPS * 30 secondes)
+        frameCounter = 10800; // Initialiser le compteur de trames pour 3 minutes (60 FPS * 3 minutes)
         jeuCommence = true;
         console.log("Présentation terminée. Le jeu commence. Compteur de trames initialisé à : " + frameCounter);
     }, 5000); // 5 secondes
@@ -56,8 +56,8 @@ function draw() {
                 animal.attaquer(joueur); // Les animaux attaquent le joueur
             }
         });
-        if (inventaireVisible && inventaire) {
-            inventaire.dessiner();
+        if (inventaireVisible && joueur.inventaire) {
+            joueur.inventaire.dessiner();
         }
         if (joueur) {
             joueur.afficherStats();
@@ -90,7 +90,7 @@ function draw() {
             });
         });
 
-        // Vérifier la condition de victoire basée sur le compteur de trmes
+        // Vérifier la condition de victoire basée sur le compteur de trames
         if (jeuCommence && !gameWon && !gameLost) {
             console.log("Compteur de trames : " + frameCounter); // Ajout de journal de débogage
             if (frameCounter > 0) {

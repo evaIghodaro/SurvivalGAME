@@ -50,6 +50,6 @@ function resetGame() {
     showMenu = false;
     gameLost = false;
     gameWon = false;
-    frameCounter = 1800; // Réinitialiser le compteur de trames pour 30 secondes
+    frameCounter = 10800; // Réinitialiser le compteur de trames pour 3 minutes (60 FPS * 3 minutes)
     loop(); // Redémarrer la boucle de draw
 }

@@ -8,11 +8,12 @@ class Joueur {
         this.taille = 50;
         this.vitesse = 5;
         this.force = 10;
-        this.inventaire = [];
+        this.inventaire = new Inventaire(); // Initialiser l'inventaire ici
         this.santeRegagnee = 0; // Suivi de la santé regagnée
         this.xp = 0; // Ajouter l'XP
         this.healthBarWidth = 50; // Largeur fixe de la barre de santé
         this.healthBarHeight = 5; // Hauteur fixe de la barre de santé
+        this.porteeAttaque = 70; // Augmenter la portée d'attaque au corps à corps
     }
 
     deplacer(arbres) {
@@ -70,7 +71,7 @@ class Joueur {
 
     attaquer(animal) {
         let distance = dist(this.x, this.y, animal.x, animal.y);
-        if (distance < this.taille / 2 + animal.taille / 2) {
+        if (distance < this.porteeAttaque) { // Utiliser la portée d'attaque ajustée
             animal.sante -= this.force;
             if (animal.sante <= 0) {
                 this.gagnerXp(3 * animal.niveau); // Ajouter de l'XP en fonction du niveau de l'animal
@@ -95,7 +96,7 @@ class Joueur {
     }
 
     ajouterDansInventaire(animal) {
-        this.inventaire.push(animal);
+        this.inventaire.ajouterAnimal(animal);
         this.score += 50;
         this.force += 5;
         this.vitesse += 1;

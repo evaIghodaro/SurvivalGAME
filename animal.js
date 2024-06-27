@@ -5,10 +5,12 @@ class Animal {
         this.taille = taille;
         this.niveau = niveau || 1; // Par défaut, le niveau est 1
         this.sante = 100 + this.niveau * 20; // Santé augmentée en fonction du niveau
-        this.vitesse = 1 + this.niveau * 0.2; // Vitesse augmentée en fonction du niveau
+        this.vitesse = 1 + this.niveau * 0.3; // Augmenter légèrement la vitesse
         this.force = 0.5 + this.niveau * 0.5; // Réduire la force d'attaque de l'animal
-        this.moveDelay = Math.floor(Math.random() * (120 - 30) + 30); // Random delay between moves
-        this.lastMoveTime = 0; // Last move time
+        this.moveDelay = Math.floor(Math.random() * (120 - 30) + 30); // Délai aléatoire entre les déplacements
+        this.lastMoveTime = 0; // Dernière fois que l'animal a bougé
+        this.attackDelay = 60; // Délai d'attaque (en frames)
+        this.lastAttackTime = 0; // Dernière fois que l'animal a attaqué
         this.mort = false; // Indiquer si l'animal est mort
     }
 
@@ -44,17 +46,18 @@ class Animal {
     }
 
     attaquer(joueur) {
-        if (this.sante > 0 && !this.mort) { // Ne pas attaquer si l'animal est mort
+        if (this.sante > 0 && !this.mort && frameCount - this.lastAttackTime > this.attackDelay) { // Ne pas attaquer si l'animal est mort
             let distance = dist(this.x, this.y, joueur.x, joueur.y);
             if (distance < this.taille / 2 + joueur.taille / 2) {
                 joueur.sante -= this.force; // Utiliser la force ajustée par le niveau
                 this.x += random(-5, 5); // Faire bouger l'animal un peu
                 this.y += random(-5, 5); // Faire bouger l'animal un peu
+                this.lastAttackTime = frameCount; // Mettre à jour le dernier temps d'attaque
             }
         }
     }
 
     tuer() {
-        this.mort = true;
+        this.mort = true; // Marquer l'animal comme mort
     }
 }
