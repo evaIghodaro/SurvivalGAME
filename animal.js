@@ -6,7 +6,7 @@ class Animal {
         this.niveau = niveau || 1; // Par défaut, le niveau est 1
         this.sante = 100 + this.niveau * 20; // Santé augmentée en fonction du niveau
         this.vitesse = 1 + this.niveau * 0.2; // Vitesse augmentée en fonction du niveau
-        this.force = 1 + this.niveau; // Force augmentée en fonction du niveau
+        this.force = 0.5 + this.niveau * 0.5; // Réduire la force d'attaque de l'animal
         this.moveDelay = Math.floor(Math.random() * (120 - 30) + 30); // Random delay between moves
         this.lastMoveTime = 0; // Last move time
         this.mort = false; // Indiquer si l'animal est mort
@@ -58,4 +58,3 @@ class Animal {
         this.mort = true;
     }
 }
-
