@@ -48,6 +48,8 @@ class Animal {
             let distance = dist(this.x, this.y, joueur.x, joueur.y);
             if (distance < this.taille / 2 + joueur.taille / 2) {
                 joueur.sante -= this.force; // Utiliser la force ajustée par le niveau
+                this.x += random(-5, 5); // Faire bouger l'animal un peu
+                this.y += random(-5, 5); // Faire bouger l'animal un peu
             }
         }
     }
@@ -56,3 +58,4 @@ class Animal {
         this.mort = true;
     }
 }
+

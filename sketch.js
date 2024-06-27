@@ -22,7 +22,7 @@ function setup() {
     for (let i = 0; i < 5; i++) {
         let x = random(width);
         let y = random(height);
-        let niveau = Math.floor(random(1, 5)); // Niveau aléatoire entre 1 et 5
+        let niveau = Math.floor(random(0, 11)); // Niveau aléatoire entre 0 et 10
         animaux.push(new Animal(x, y, 30, niveau));
         console.log(`Animal créé à la position (${x}, ${y}) avec niveau ${niveau}`);
     }
@@ -90,7 +90,7 @@ function draw() {
             });
         });
 
-        // Vérifier la condition de victoire basée sur le compteur de trames
+        // Vérifier la condition de victoire basée sur le compteur de trmes
         if (jeuCommence && !gameWon && !gameLost) {
             console.log("Compteur de trames : " + frameCounter); // Ajout de journal de débogage
             if (frameCounter > 0) {

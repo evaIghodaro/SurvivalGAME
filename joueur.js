@@ -73,8 +73,9 @@ class Joueur {
         if (distance < this.taille / 2 + animal.taille / 2) {
             animal.sante -= this.force;
             if (animal.sante <= 0) {
-                this.gagnerXp(3); // Ajouter 3 XP
-                this.mana = Math.min(this.mana + 20, 100); // Ajouter de la mana et s'assurer qu'elle ne dépasse pas 100
+                this.gagnerXp(3 * animal.niveau); // Ajouter de l'XP en fonction du niveau de l'animal
+                this.mana = Math.min(this.mana + 20 * animal.niveau, 100); // Ajouter de la mana en fonction du niveau et s'assurer qu'elle ne dépasse pas 100
+                this.sante = Math.min(this.sante + 10 * animal.niveau, 100); // Ajouter de la santé en fonction du niveau et s'assurer qu'elle ne dépasse pas 100
                 animal.tuer();
                 return 'tué';
             }
@@ -129,5 +130,31 @@ class Joueur {
         text(`XP: ${this.xp}`, 0, 90);
         text(`Mana: ${this.mana}`, 0, 105);
         pop();
+    }
+}
+
+// Classe Projectile pour gérer les attaques à distance
+class Projectile {
+    constructor(x, y, angle, taille, vitesse) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+        this.taille = taille;
+        this.vitesse = vitesse;
+    }
+
+    deplacer() {
+        this.x += cos(this.angle) * this.vitesse;
+        this.y += sin(this.angle) * this.vitesse;
+    }
+
+    dessiner() {
+        fill(0, 255, 0);
+        ellipse(this.x, this.y, this.taille, this.taille);
+    }
+
+    toucher(animal) {
+        let distance = dist(this.x, this.y, animal.x, animal.y);
+        return distance < this.taille / 2 + animal.taille / 2;
     }
 }
