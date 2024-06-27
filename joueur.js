@@ -13,7 +13,7 @@ class Joueur {
         this.xp = 0; // Ajouter l'XP
         this.healthBarWidth = 50; // Largeur fixe de la barre de santé
         this.healthBarHeight = 5; // Hauteur fixe de la barre de santé
-        this.porteeAttaque = 70; // Augmenter la portée d'attaque au corps à corps
+        this.porteeAttaque = 60; // Diminuer légèrement la portée d'attaque au corps à corps
     }
 
     deplacer(arbres) {
@@ -66,7 +66,7 @@ class Joueur {
         // Afficher le mana du joueur
         textSize(12);
         fill(0, 0, 255);
-        text(`Mana: ${this.mana}/100`, this.x + this.taille / 2 + 10, this.y + this.taille / 2);
+        text(`Mana: ${this.mana}`, this.x + this.taille / 2 + 10, this.y + this.taille / 2);
     }
 
     attaquer(animal) {
@@ -76,7 +76,6 @@ class Joueur {
             if (animal.sante <= 0) {
                 this.gagnerXp(3 * animal.niveau); // Ajouter de l'XP en fonction du niveau de l'animal
                 this.mana = Math.min(this.mana + 20 * animal.niveau, 100); // Ajouter de la mana en fonction du niveau et s'assurer qu'elle ne dépasse pas 100
-                this.sante = Math.min(this.sante + 10 * animal.niveau, 100); // Ajouter de la santé en fonction du niveau et s'assurer qu'elle ne dépasse pas 100
                 animal.tuer();
                 return 'tué';
             }

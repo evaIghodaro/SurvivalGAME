@@ -31,4 +31,3 @@ class Arbre {
         ellipse(this.x + 10, this.y - 25, 60, 60); // Feuilles de l'arbre
     }
 }
-

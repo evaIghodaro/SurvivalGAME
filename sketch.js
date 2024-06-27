@@ -90,7 +90,7 @@ function draw() {
             });
         });
 
-        // Vérifier la condition de victoire basée sur le compteur de trames
+        // Vérifier la condition de victoire basée sur le compteur de trames ou si tous les animaux sont tués
         if (jeuCommence && !gameWon && !gameLost) {
             console.log("Compteur de trames : " + frameCounter); // Ajout de journal de débogage
             if (frameCounter > 0) {
@@ -98,6 +98,10 @@ function draw() {
             } else {
                 gameWon = true;
                 console.log("Le joueur a gagné !");
+            }
+            if (animaux.length === 0) {
+                gameWon = true;
+                console.log("Le joueur a gagné en tuant tous les animaux !");
             }
         }
 
